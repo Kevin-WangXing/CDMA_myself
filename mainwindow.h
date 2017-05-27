@@ -8,6 +8,7 @@
 #include <QAction>
 
 #include "logindlg.h"
+#include "mymysql.h"
 
 class MainWindow : public QMainWindow
 {
@@ -16,12 +17,16 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+        void closeEvent(QCloseEvent *e);
 
 private:
-    void closeEvent(QCloseEvent *e);
+    mymysql db;
 
     void createMenus();
     void createActions();
+
+    void showview();
+    void script_msg(const char *SQL);
 
 private:
 
@@ -33,9 +38,20 @@ private:
     QAction *logoutAction;
     QAction *exitAction;
 
+    QAction *scriptAction;
+
+    QAction *cascadeAction;
+    QAction *tileAction;
+
 private slots:
     void on_login();
     void on_logout();
+    void on_exit();
+
+    void on_script();
+
+    void cascadeSubWindows();
+    void tileSubWindows();
 };
 
 #endif // MAINWINDOW_H

@@ -7,16 +7,22 @@
 QT       += core gui
 QT  += widgets
 
+LIBS += -LC:\mymysql\mysql\lib -llibmysql
+
 TARGET = cdma
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    logindlg.cpp
+    logindlg.cpp \
+    scriptdlg.cpp \
+    mymysql.cpp
 
 HEADERS  += mainwindow.h \
-    logindlg.h
+    logindlg.h \
+    scriptdlg.h \
+    mymysql.h
 
 RESOURCES += \
     cdma.qrc

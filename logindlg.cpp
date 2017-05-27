@@ -58,10 +58,14 @@ void logindlg::on_logoutBtn()
 
 void logindlg::on_loginBtn()
 {
-    userid = lineEditUserID->text();
-    passwd= lineEditPasswd->text();
-    dbname = lineEditDBName->text();
-    hostip = lineEditHostIP->text();
+//    userid = lineEditUserID->text();
+//    passwd= lineEditPasswd->text();
+//    dbname = lineEditDBName->text();
+//    hostip = lineEditHostIP->text();
+    userid = "dbuser1";
+    passwd= "wx456456";
+    dbname = "db1";
+    hostip = "192.168.153.128";
     islogin = true;
     close();
 }
