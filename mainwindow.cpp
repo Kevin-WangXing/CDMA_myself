@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "scriptdlg.h"
+#include "select_mscdlg.h"
 
 #include <QTextCodec>
 #include <QMessageBox>
@@ -53,6 +54,8 @@ void MainWindow::createMenus()
     adminMenu->addAction(exitAction);
 
     adminMenu = menuBar()->addMenu(tr("数据"));
+    adminMenu->addAction(select_mscAction);
+    adminMenu->addSeparator();
     adminMenu->addAction(scriptAction);
 
     adminMenu = menuBar()->addMenu(tr("窗口"));
@@ -75,6 +78,14 @@ void MainWindow::createActions()
     exitAction = new QAction(tr("退出"), this);
     exitAction->setShortcut(tr("ctrl+w"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(on_exit()));
+
+//    insert_mscAction = new QAction(tr("添加MSC"));
+//    insert_mscAction->setShortcut(tr("Ctrl+F"));
+//    connect(insert_mscAction, SIGNAL(triggered()), this, SLOT(on_insert_msc()));
+
+    select_mscAction = new QAction(tr("查询MSC"), this);
+    select_mscAction->setShortcut(tr("Ctrl+L"));
+    connect(select_mscAction, SIGNAL(triggered()), this, SLOT(on_selectMSC()));
 
     scriptAction = new QAction(tr("执行脚本"), this);
     scriptAction->setShortcut(tr("Ctrl+p"));
@@ -158,34 +169,71 @@ void MainWindow::on_script()
     }
 }
 
-void MainWindow::script_msg(const char *SQL)
+//执行SQL语句，将执行返回值放入QStandardItemModel,通过QTableView显示出来
+void MainWindow::script_msg(const char * SQL)
 {
+//    const char *src = SQL.toStdString().data();
+//    if((strncmp(src, "SELECT", 6) == 0) || (strncmp(src, "select", 6) == 0)
+//            || (strncmp(src, "show", 4) == 0) || (strncmp(src, "SHOW", 4) == 0)
+//            || (strncmp(src, "DESC", 4) == 0) || (strncmp(src, "desc", 4) == 0))
+//    //如果src有返回数据集SQL语句，那么调用sql_open函数
+//    {
+//        QStandardItemModel *modul = NULL;
+//        if(db.sql_open(SQL.toStdString().data(), &modul) == 0)
+//        {
+//            QTableView *view1 = new QTableView;
+//            view1->setAttribute(Qt::WA_DeleteOnClose);
+//            view1->setModel(modul);
+//            mdiarea->addSubWindow(view1);
+//            view1->setStyleSheet("border-image: url(:/icon/3.jpg);");
+
+//            view1->setWindowTitle(tr("查询结果显示窗口"));
+//            //view1 继承自widget，如果没有module，那么view不会显示任何东西
+
+//            view1->show();
+//            mdiarea->activeSubWindow()->resize(width() - 100, height() - 100);
+//        }else
+//        {
+//            QMessageBox::information(this, tr("错误"), db.geterror());
+//        }
+//    }
+//    else
+//    {
+//        if(db.sql_exec(SQL.toStdString().data()) == 0)
+//        {
+//            QMessageBox::information(this, tr("提示"), tr("执行成功"));
+//        }
+//        else
+//        {
+//            QMessageBox::information(this, tr("执行失败"), db.geterror());
+//        }
+//    }
+
     int res = 0;
-    if((strncmp(SQL, "SELECT", 6) == 0) || (strncmp(SQL, "select", 6) == 0))
+    if((strncmp(SQL, "SELECT", 6) == 0) || (strncmp(SQL, "select", 6) == 0)
+                || (strncmp(SQL, "show", 4) == 0) || (strncmp(SQL, "SHOW", 4) == 0)
+                || (strncmp(SQL, "DESC", 4) == 0) || (strncmp(SQL, "desc", 4) == 0))
     {
         QStandardItemModel *modul = NULL;
-        res = db.sql_open(SQL, &modul);
+        res = db.sql_open(SQL, &modul);//如果是select执行这个
 
-        QTableView *view1 = new QTableView;
-        view1->setAttribute(Qt::WA_DeleteOnClose);
-        mdiarea->addSubWindow(view1);
-        view1->setStyleSheet("border-image: url(:/icon/3.jpg);");
+        QTableView *view = new QTableView;
+        view->setAttribute(Qt::WA_DeleteOnClose);//view在close时间自动delete
+        mdiarea->addSubWindow(view);
+        //view->setStyleSheet("border-image: url(3.jpg);");
+        view->setStyleSheet("border-image: url(:/icon/3.jpg);");
 
-        //view1 继承自widget，如果没有module，那么view不会显示任何东西
-        view1->setModel(modul);
-        view1->show();
+        view->setModel(modul);
+        view->show();
         mdiarea->activeSubWindow()->resize(width() - 100, height() - 100);
     }
     else
-    {
         res = db.sql_exec(SQL);
-    }
 
-    if(res == -1)
-    {
-        QMessageBox::information(this, tr("执行失败"), db.geterror());
-    }else
-        QMessageBox::information(this, tr("提示"), tr("执行成功"));
+    if(res == -1 )
+        QMessageBox::information(this, tr("exec失败"), db.geterror());//geterror()减少窗口弹出
+    else
+        QMessageBox::information(this, "", tr("exec成功"));
 }
 
 
@@ -219,5 +267,23 @@ void MainWindow::cascadeSubWindows()
 void MainWindow::tileSubWindows()
 {
     mdiarea->tileSubWindows();
+}
+
+void MainWindow::on_selectMSC()
+{
+    //----------弹出查询MSC对话框--------------------------
+    select_mscDlg select_msc(this);
+    select_msc.resize(400, 200);
+    select_msc.exec();
+
+
+    if(select_msc.isok)
+    {
+        script_msg(select_msc.SQL.toStdString().data());
+    }
+}
+
+void MainWindow::on_insert_msc()
+{
 }
 

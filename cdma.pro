@@ -17,12 +17,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     logindlg.cpp \
     scriptdlg.cpp \
-    mymysql.cpp
+    mymysql.cpp \
+    select_mscdlg.cpp
 
 HEADERS  += mainwindow.h \
     logindlg.h \
     scriptdlg.h \
-    mymysql.h
+    mymysql.h \
+    select_mscdlg.h
 
 RESOURCES += \
     cdma.qrc

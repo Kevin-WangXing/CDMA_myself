@@ -38,6 +38,8 @@ private:
     QAction *logoutAction;
     QAction *exitAction;
 
+    QAction *insert_mscAction;
+    QAction *select_mscAction;
     QAction *scriptAction;
 
     QAction *cascadeAction;
@@ -49,6 +51,10 @@ private slots:
     void on_exit();
 
     void on_script();
+
+    void on_selectMSC();
+
+    void on_insert_msc();
 
     void cascadeSubWindows();
     void tileSubWindows();
