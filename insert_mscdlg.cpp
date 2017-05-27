@@ -80,7 +80,7 @@ insert_mscDlg::insert_mscDlg(QWidget *parent) :
 }
 
 #define INSERTMSC "insert into mscs (mscid, mscpc, mscname, districtname, createdate, description) values (%1, '%2', '%3', '%4', str_to_date('%5','%Y-%m-%d %H:%i:%s'), '%6')"
-
+//#define INSERTMSC "insert into mscs (mscid, mscpc, mscname, districtname, createdate, description) values (%1, '%2', '%3', '%4', str_to_date('%5', '%Y-&m-%d %H:%i:%s'), '%6')"
 void insert_mscDlg::okBtnOnclick()
 {
     if (mscid->text().trimmed().isEmpty())
