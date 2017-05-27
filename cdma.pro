@@ -18,13 +18,15 @@ SOURCES += main.cpp\
     logindlg.cpp \
     scriptdlg.cpp \
     mymysql.cpp \
-    select_mscdlg.cpp
+    select_mscdlg.cpp \
+    insert_mscdlg.cpp
 
 HEADERS  += mainwindow.h \
     logindlg.h \
     scriptdlg.h \
     mymysql.h \
-    select_mscdlg.h
+    select_mscdlg.h \
+    insert_mscdlg.h
 
 RESOURCES += \
     cdma.qrc

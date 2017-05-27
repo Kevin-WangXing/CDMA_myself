@@ -44,8 +44,8 @@ void select_mscDlg::cancelBtn_click()
     close();
 }
 
-#define SELECTMSC1 "select mscid, mscpc MSC点码, mscname MSC名称, districtname 区域名称, DATE_FORMAT(createdate, '%Y-%m-%d') 建立时间, description 描述 from mscs"
-#define SELECTMSC2 "select mscid, mscpc MSC点码, mscname MSC名称, districtname 区域名称, DATE_FORMAT(createdate, '%Y-%m-%d') 建立时间, description 描述 from mscs where mscid = %1"
+#define SELECTMSC1 "select mscid, mscpc MSCCode, mscname MSCName, districtname AreaName, DATE_FORMAT(createdate, '%Y-%m-%d') CreateTime, description Description from mscs"
+#define SELECTMSC2 "select mscid, mscpc MSCCode, mscname MSCName, districtname AreaName, DATE_FORMAT(createdate, '%Y-%m-%d') CreateTime, description Description from mscs where mscid = %1"
 
 void select_mscDlg::okBtn_click()
 {

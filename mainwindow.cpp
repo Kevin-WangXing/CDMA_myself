@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "scriptdlg.h"
 #include "select_mscdlg.h"
+#include "insert_mscdlg.h"
 
 #include <QTextCodec>
 #include <QMessageBox>
@@ -54,6 +55,7 @@ void MainWindow::createMenus()
     adminMenu->addAction(exitAction);
 
     adminMenu = menuBar()->addMenu(tr("数据"));
+    adminMenu->addAction(insert_mscAction);
     adminMenu->addAction(select_mscAction);
     adminMenu->addSeparator();
     adminMenu->addAction(scriptAction);
@@ -79,9 +81,9 @@ void MainWindow::createActions()
     exitAction->setShortcut(tr("ctrl+w"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(on_exit()));
 
-//    insert_mscAction = new QAction(tr("添加MSC"));
-//    insert_mscAction->setShortcut(tr("Ctrl+F"));
-//    connect(insert_mscAction, SIGNAL(triggered()), this, SLOT(on_insert_msc()));
+    insert_mscAction = new QAction(tr("添加MSC"), this);
+    insert_mscAction->setShortcut(tr("Ctrl+F"));
+    connect(insert_mscAction, SIGNAL(triggered()), this, SLOT(on_insert_msc()));
 
     select_mscAction = new QAction(tr("查询MSC"), this);
     select_mscAction->setShortcut(tr("Ctrl+L"));
@@ -285,5 +287,13 @@ void MainWindow::on_selectMSC()
 
 void MainWindow::on_insert_msc()
 {
+    insert_mscDlg insert_msc(this);
+    insert_msc.resize(400, 200);
+    insert_msc.exec();
+
+    if(insert_msc.isok)//如果用户点击确定按钮
+    {
+        script_msg(insert_msc.SQL.toStdString().data());
+    }
 }
 
