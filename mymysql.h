@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <C:/mymysql/mysql/include/mysql.h>
 #include <QStandardItemModel>
+#include <QStringList>
 
 class mymysql
 {
@@ -14,6 +15,7 @@ public:
     void sql_disconnect();
     int sql_exec(const char *SQL);
     int sql_open(const char *SQL, QStandardItemModel **p);
+    int sql_open_str(const char *SQL, QStringList &list);
 
 private:
     MYSQL *connection;
